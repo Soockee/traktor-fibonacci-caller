@@ -179,7 +179,7 @@ namespace Httpserver
             {
                 var body = new StreamReader(context.Request.InputStream, Encoding.UTF8).ReadToEnd();       
                 var json = JsonSerializer.Deserialize<JsonObject>(body);
-                InjectContext(scope.Span);
+                Program.tracer.SendContext(scope.Span).GetAwaiter().GetResult();
                 string response = SendRequest(fibo_ip,fibo_port,json);
                 context = BuildRespose(context, response);
                 context.Response.Close();
@@ -215,12 +215,6 @@ namespace Httpserver
             var response = SimpleHTTPServer.httpclient.PostAsync(url,content).Result;
             string responseContent = response.Content.ReadAsStringAsync().Result;
             return responseContent;
-        }
-        private void InjectContext(ISpan span)
-        {
-            BinaryCarrier carrier = new  BinaryCarrier();
-            Program.tracer.Inject(span.Context, BuiltinFormats.Binary, carrier);
-            Program.tracer.registry.SendAsync(carrier.Get().ToArray(), WebSocketMessageType.Binary, true, CancellationToken.None);
         }
     }
 }
