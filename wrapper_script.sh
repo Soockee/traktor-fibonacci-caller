@@ -2,7 +2,7 @@
 
 echo "Starting InterceptorScript in WrapperScript"
 cd /app/
-python3 -u sniffing.py &
+python -u sniffing.py &
 status=$?
 if [ $status -ne 0 ]; then
     echo "Failed to start server process: $status"

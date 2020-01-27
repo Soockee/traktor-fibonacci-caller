@@ -1,8 +1,9 @@
 FROM traktor-fibo-base
 RUN ["apt-get","update"] 
 RUN ["apt-get","upgrade","-y" , "--fix-missing"]
-RUN apt-get update && apt-get -y install build-essential python3 python3-pip px tcpdump
-RUN pip3 install --pre scapy[basic]
+RUN apt-get update && apt-get -y install build-essential python python-pip px tcpdump libnetfilter-queue-dev iptables net-tools
+RUN pip install --pre scapy[basic]
+RUN pip install NetfilterQueue
 COPY sniffing.py /app/sniffing.py
 
 
