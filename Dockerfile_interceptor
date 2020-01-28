@@ -6,9 +6,7 @@ RUN pip install --pre scapy[basic]
 RUN pip install NetfilterQueue
 COPY sniffing.py /app/sniffing.py
 
-
-COPY start_interceptor.sh /app/start_interceptor.sh
-COPY start_server.sh /app/start_server.sh
+COPY WebSocket.py /usr/local/lib/python2.7/dist-packages/scapy/layers/WebSocket.py
 COPY wrapper_script.sh wrapper_script.sh
 #ENTRYPOINT ["dotnet", "traktor-test-http-caller.dll"]
 ENTRYPOINT ./wrapper_script.sh
